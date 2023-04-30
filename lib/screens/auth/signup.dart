@@ -1,23 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class Login extends StatefulWidget {
+class SignupScreen extends StatefulWidget {
+  const SignupScreen({super.key});
+
   @override
-  _LoginState createState() => _LoginState();
+  State<SignupScreen> createState() => _SignupScreenState();
 }
 
-class _LoginState extends State<Login> {
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-  bool _obscureText = true;
-  @override
-  void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
-    super.dispose();
-  }
-
+class _SignupScreenState extends State<SignupScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,23 +33,17 @@ class _LoginState extends State<Login> {
                 
         elevation: 0,
       ),
-      body: GestureDetector(
-        onTap: () {
-          // unfocus textfields
-          FocusScope.of(context).unfocus();
-        },
-        child: Container(
-          padding: const EdgeInsets.all(15),
-          height: MediaQuery.of(context).size.height,
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(
-                  height: 50,
-                ),
-                Text(
-                  'Welcome back! Glad to see you, Again!',
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 20),
+                  Text(
+                  'Hello! Register to get started.',
                   style: GoogleFonts.urbanist(
                     textStyle: const TextStyle(
                       fontSize: 30,
@@ -66,10 +51,8 @@ class _LoginState extends State<Login> {
                     ),
                   ),
                 ),
-                const SizedBox(
-                  height: 18,
-                ),
-                Container(
+                  const SizedBox(height: 20),
+                  Container(
                   height: 50,
                   padding: const EdgeInsets.all(1),
                   decoration: BoxDecoration(
@@ -81,15 +64,18 @@ class _LoginState extends State<Login> {
                     ),
                   ),
                   child: TextFormField(
-                    controller: _emailController,
                     autofillHints: const [AutofillHints.email],
                     style: const TextStyle(
                       fontSize: 16,
                     ),
                     validator: (String? value) {
                       if (value!.isEmpty) {
-                        return 'Please enter your email';
+                        return 'Please enter your username';
                       }
+                      if (value.length < 6) {
+                        return 'Username must be at least 6 characters long.';
+                      }
+
                       return null;
                     },
                     decoration: InputDecoration(
@@ -97,7 +83,7 @@ class _LoginState extends State<Login> {
                       fillColor: Color(0xffF7F8F9),
                       floatingLabelBehavior: FloatingLabelBehavior.never,
                       label: Text(
-                        'Enter Your Email',
+                        'Username',
                         style: GoogleFonts.urbanist(
                           textStyle: const TextStyle(
                             fontSize: 15,
@@ -117,10 +103,9 @@ class _LoginState extends State<Login> {
                     cursorColor: Colors.grey,
                   ),
                 ),
-                const SizedBox(
-                  height: 30,
-                ),
-                Container(
+                  const SizedBox(height: 20),
+                  //make email Password confirm password
+                  Container(
                   height: 50,
                   padding: const EdgeInsets.all(1),
                   decoration: BoxDecoration(
@@ -132,39 +117,26 @@ class _LoginState extends State<Login> {
                     ),
                   ),
                   child: TextFormField(
-                    controller: _passwordController,
-                    cursorHeight: 20,
-                    validator: (String? value) {
-                      if (value!.isEmpty) {
-                        return 'Please enter your password';
-                      }
-                      return null;
-                    },
                     autofillHints: const [AutofillHints.email],
                     style: const TextStyle(
-                        fontSize: 15, fontWeight: FontWeight.normal),
-                    obscureText: _obscureText,
-                    obscuringCharacter: '*',
+                      fontSize: 16,
+                    ),
+                    validator: (String? value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter your email';
+                      }
+                      if (value.length < 6) {
+                        return 'Email must be at least 6 characters long.';
+                      }
+
+                      return null;
+                    },
                     decoration: InputDecoration(
-                      suffixIcon: IconButton(
-                        splashRadius: 10,
-                        onPressed: () {
-                          setState(() {
-                            _obscureText = !_obscureText;
-                          });
-                        },
-                        icon: Icon(
-                          _obscureText
-                              ? Icons.visibility_off
-                              : Icons.visibility,
-                          color: Colors.grey,
-                        ),
-                      ),
                       filled: true,
                       fillColor: Color(0xffF7F8F9),
                       floatingLabelBehavior: FloatingLabelBehavior.never,
                       label: Text(
-                        'Enter Your Password',
+                        'Email',
                         style: GoogleFonts.urbanist(
                           textStyle: const TextStyle(
                             fontSize: 15,
@@ -181,53 +153,124 @@ class _LoginState extends State<Login> {
                         borderSide: BorderSide.none,
                       ),
                     ),
-                    cursorColor: Colors.black87,
+                    cursorColor: Colors.grey,
                   ),
                 ),
-                const SizedBox(
-                  height: 15,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text(
-                      "Forgot Password?",
-                      style: GoogleFonts.urbanist(
-                        textStyle: const TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w600,
+                  const SizedBox(height: 20),
+                  Container(
+                  height: 50,
+                  padding: const EdgeInsets.all(1),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    color: Color(0xffF7F8F9),
+                    border: Border.all(
+                      color: Color(0xffE8ECF4),
+                      width: 1,
+                    ),
+                  ),
+                  child: TextFormField(
+                    autofillHints: const [AutofillHints.email],
+                    style: const TextStyle(
+                      fontSize: 16,
+                    ),
+                    validator: (String? value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter your password';
+                      }
+                      if (value.length < 6) {
+                        return 'Password must be at least 6 characters long.';
+                      }
+
+                      return null;
+                    },
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Color(0xffF7F8F9),
+                      floatingLabelBehavior: FloatingLabelBehavior.never,
+                      label: Text(
+                        'Password',
+                        style: GoogleFonts.urbanist(
+                          textStyle: const TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.normal,
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 30,
-                ),
-                Container(
-                  height: 60,
-                  width: MediaQuery.of(context).size.width,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      primary: Colors.black,
-                      shape: RoundedRectangleBorder(
+                      border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
+                        borderSide: BorderSide.none,
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
+                        borderSide: BorderSide.none,
                       ),
                     ),
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        // Respond to button press
-                        print(_emailController.text);
-                      }
-                    },
-                    child: const Text('Login'),
+                    cursorColor: Colors.grey,
                   ),
                 ),
-                const SizedBox(
-                  height: 35,
+                  const SizedBox(height: 20),
+                  Container(
+                  height: 50,
+                  padding: const EdgeInsets.all(1),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    color: Color(0xffF7F8F9),
+                    border: Border.all(
+                      color: Color(0xffE8ECF4),
+                      width: 1,
+                    ),
+                  ),
+                  child: TextFormField(
+                    autofillHints: const [AutofillHints.email],
+                    style: const TextStyle(
+                      fontSize: 16,
+                    ),
+                    validator: (String? value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter your password';
+                      }
+                      if (value.length < 6) {
+                        return 'Password must be at least 6 characters long.';
+                      }
+
+                      return null;
+                    },
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Color(0xffF7F8F9),
+                      floatingLabelBehavior: FloatingLabelBehavior.never,
+                      label: Text(
+                        'Confirm Password',
+                        style: GoogleFonts.urbanist(
+                          textStyle: const TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.normal,
+                          ),
+                        ),
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
+                        borderSide: BorderSide.none,
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
+                        borderSide: BorderSide.none,
+                      ),
+                    ),
+                    cursorColor: Colors.grey,
+                  ),
                 ),
-                //devider with center text
-                Row(
+                  const SizedBox(height: 40),
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        // Respond to button press
+                      },
+                      child: const Text('Sign Up'),
+                    ),
+                  ),
+                  Row(
                   children: [
                     Expanded(
                       child: Container(
@@ -310,37 +353,29 @@ class _LoginState extends State<Login> {
                 const SizedBox(
                   height: 30,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Don't have an account?",
-                      style: ThemeData.light().textTheme.bodySmall!.copyWith(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w500,
-                          ),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        // Respond to button press
-                      },
-                      child: Text(
-                        'Register Now',
-                        style: ThemeData.light().textTheme.bodySmall!.copyWith(
-                              color: Color.fromRGBO(53, 194, 193, 1),
-                              fontSize: 15,
-                              fontWeight: FontWeight.w700,
-                            ),
+                  const SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text(
+                        'Already have an account?',
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.normal,
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-              
-              ],
+                      TextButton(
+                        onPressed: () {
+                          // Respond to button press
+                        },
+                        child: const Text('Sign In'),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
-          ),
-
-          // dont have an account? sign up
+          ],
         ),
       ),
     );
